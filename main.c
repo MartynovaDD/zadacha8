@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <float.h>
 
 typedef struct Node_{    //узел списка
     int value11;
@@ -16,7 +17,7 @@ typedef struct Node_{    //узел списка
 Node* add(Node** head, int x1, int y1, int x2, int y2, int x3, int y3) {
    Node* current = *head;
    Node* newNode;
-   newNode = malloc(sizeof(Node));
+   newNode = (Node*)malloc(sizeof(Node));
    if (newNode == NULL){
         printf("Error! Can't allocate memory!");
         return NULL;
@@ -100,7 +101,7 @@ int main(void){
     int y1;
     int x2;
     int v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18;
-    double a, b,c,S1,S2,S3,SS,S11,S22,S33,P;
+    //double a, b,c,S1,S2,S3,SS,S11,S22,S33,P;
     int y2;
     int x3;
     int y3;
@@ -150,58 +151,7 @@ int main(void){
                     v16 = vekt(x2-x3,y2-y3,head1->value11-x3,head1->value12-y3,head1->value31-x3,head1->value32-y3);
                     v17 = vekt(head1->value21-head1->value31,head1->value22-head1->value32,x3-head1->value31,y3-head1->value32,x2-head1->value31,y2-head1->value32);
                     v18 = vekt(x2-x3,y2-y3,head1->value31-x3,head1->value32-y3,head1->value21-x3,head1->value22-y3);
-
-                    S1 = area(x1,head1->value11,head1->value21,y1,head1->value12,head1->value22);
-                    S2 = area(x1,head1->value11,head1->value31,y1,head1->value12,head1->value32);
-                    S3 = area(x1,head1->value31,head1->value21,y1,head1->value32,head1->value22);
-                    S11=(S1+S2+S3);
-                    S1 = area(x2,head1->value11,head1->value21,y2,head1->value12,head1->value22);
-                    S2 = area(x2,head1->value11,head1->value31,y2,head1->value12,head1->value32);
-                    S3 = area(x2,head1->value31,head1->value21,y2,head1->value32,head1->value22);
-                    S22=(S1+S2+S3);
-                    S1 = area(x3,head1->value11,head1->value21,y3,head1->value12,head1->value22);
-                    S2 = area(x3,head1->value11,head1->value31,y3,head1->value12,head1->value32);
-                    S3 = area(x3,head1->value31,head1->value21,y3,head1->value32,head1->value22);
-                    S33=(S1+S2+S3);
-                    a = sqrt(pow(head1->value11-head1->value21,2)+pow(head1->value12-head1->value22,2));
-                    b = sqrt(pow(head1->value11-head1->value31,2)+pow(head1->value12-head1->value32,2));
-                    c = sqrt(pow(head1->value31-head1->value21,2)+pow(head1->value32-head1->value22,2));
-                    P = (a+b+c)/2;
-                    SS = sqrt(P*(P-a)*(P-b)*(P-c));
-
-                    /*S1 = area(value11,x1,x2,value12,y1,y2);
-                    S2 = area(value11,x1,x3,value12,y1,y3);
-                    S3 = area(value11,x2,x3,value12,y2,y3);
-                    s1=(S1+S2+S3);
-                    S1 = area(value21,x1,x2,value22,y1,y2);
-                    S2 = area(value21,x1,x3,value22,y1,y3);
-                    S3 = area(value21,x2,x3,value22,y2,y3);
-                    s2=(S1+S2+S3);
-                    S1 = area(value31,x1,x2,value22,y1,y2);
-                    S2 = area(value31,x1,x3,value22,y1,y3);
-                    S3 = area(value31,x2,x3,value22,y2,y3);
-                    s3=(S1+S2+S3);
-                    a = sqrt(pow(x1-x2,2)+pow(y1-y2,2));
-                    b = sqrt(pow(x1-x3,2)+pow(y1-y3,2));
-                    c = sqrt(pow(x3-x2,2)+pow(y3-y2,2));
-                    P = (a+b+c)/2;
-                    s = sqrt(P*(P-a)*(P-b)*(P-c));
-                    if((s>=s1 && s<=s1) && (s>=s2 && s<=s2) && (s>=s3 && s<=s3) && (s1>=s2 && s1<=s2) && (s1>=s3 && s1<=s3) && (s2>=s3 && s2<=s3)){
-                    */
-                    //printf ("%lf\n", S11);
-                    //printf ("%lf\n", SS);
-                    printf ("%lf\n", S22);
-                    printf ("%lf\n", S33);
-                    if((S22 >= S33) && (S22 <= S33)){
-                        printf("yes\n");
-                    }
-                    else{
-                        printf("no\n");
-                    }
                     if((v1<=0 && v2<=0) || (v3<=0 && v4<=0) || (v5<=0 && v6<=0) || (v7<=0 && v8<=0) || (v9<=0 && v10<=0) || (v11<=0 && v12<=0) || (v13<=0 && v14<=0) || (v15<=0 && v16<=0) || (v17<=0 && v18<=0)){
-                        f = 1;
-                    }
-                    if((SS>=S11 && SS<=S11) && (SS>=S22 && SS<=S22) && (SS>=S33 && SS<=S33) && (S11>=S22 && S11<=S22) && (S11>=S33 && S11<=S33) && (S22>=S33 && S22<=S33)){
                         f = 1;
                     }
                     head1 = head1->next;
@@ -213,7 +163,7 @@ int main(void){
                 f = 0;
             }
             printLinkedList(head);   //выводим
-            fict = malloc(sizeof(Node));
+            fict = (Node*)malloc(sizeof(Node));
             if (fict == NULL){
                 printf("Error! Can't allocate memory!");
                 fclose(input);
