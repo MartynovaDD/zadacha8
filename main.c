@@ -13,34 +13,35 @@ typedef struct Node_{    //узел списка
     struct Node_ *next;
 } Node;
 
-typedef struct Fict_{
-    struct Fict_ *next;
-} Fict;
-
-struct Node* add(Node** head, int x1, int y1, int x2, int y2, int x3, int y3) {
+Node* add(Node** head, int x1, int y1, int x2, int y2, int x3, int y3) {
    Node* current = *head;
    Node* newNode;
    newNode = malloc(sizeof(Node));
-   newNode->value11 = x1;
-   newNode->value12 = y1;
-   newNode->value21 = x2;
-   newNode->value22 = y2;
-   newNode->value31 = x3;
-   newNode->value32 = y3;
-   //printf("%d", y3);
-   newNode->next = NULL;
-   if (current == NULL) {
-      *head = newNode;
+   if (newNode == NULL){
+        printf("Error! Can't allocate memory!");
+        return NULL;
    }
-   else {
-      while (current->next != NULL) {
-          current = current->next;
-      }
-      current->next = newNode;
+   else{
+       newNode->value11 = x1;
+       newNode->value12 = y1;
+       newNode->value21 = x2;
+       newNode->value22 = y2;
+       newNode->value31 = x3;
+       newNode->value32 = y3;
+       //printf("%d", y3);
+       newNode->next = NULL;
+       if (current == NULL) {
+          *head = newNode;
+       }
+       else {
+          while (current->next != NULL) {
+              current = current->next;
+          }
+          current->next = newNode;
+       }
+       return (newNode);
    }
-   return (newNode);
 }
-
 
 void printLinkedList(const Node *head) {
     while (head) {
@@ -56,10 +57,9 @@ void printLinkedList(const Node *head) {
     printf("\n");
 }
 
-
-void deleteList(Node **head) {  //удаление списка
+void deleteList(Node **head, Node *fict) {  //удаление списка
     Node* prev = NULL;
-    while ((*head)->next) {
+    while ((*head)->next != fict) {
         prev = (*head);
         (*head) = (*head)->next;
         free(prev);
@@ -91,9 +91,8 @@ double area (int x1,int x2,int x3,int y1,int y2,int y3){
 int main(void){
     Node* head = NULL;
     Node* head1 = NULL;
-    Node* s;
-    Fict* fict;
-    Fict* current = head;
+    Node* tmp;
+    Node* fict;
     FILE* input;
     int size=1;
     int temp;
@@ -122,7 +121,6 @@ int main(void){
                 size++;
             }
             rewind(input);
-
             for (int i=0; i < (size/6); i++){
                 fscanf(input, "%d", &x1);
                 fscanf(input, "%d", &y1);
@@ -170,10 +168,30 @@ int main(void){
                     c = sqrt(pow(head1->value31-head1->value21,2)+pow(head1->value32-head1->value22,2));
                     P = (a+b+c)/2;
                     SS = sqrt(P*(P-a)*(P-b)*(P-c));
+
+                    /*S1 = area(value11,x1,x2,value12,y1,y2);
+                    S2 = area(value11,x1,x3,value12,y1,y3);
+                    S3 = area(value11,x2,x3,value12,y2,y3);
+                    s1=(S1+S2+S3);
+                    S1 = area(value21,x1,x2,value22,y1,y2);
+                    S2 = area(value21,x1,x3,value22,y1,y3);
+                    S3 = area(value21,x2,x3,value22,y2,y3);
+                    s2=(S1+S2+S3);
+                    S1 = area(value31,x1,x2,value22,y1,y2);
+                    S2 = area(value31,x1,x3,value22,y1,y3);
+                    S3 = area(value31,x2,x3,value22,y2,y3);
+                    s3=(S1+S2+S3);
+                    a = sqrt(pow(x1-x2,2)+pow(y1-y2,2));
+                    b = sqrt(pow(x1-x3,2)+pow(y1-y3,2));
+                    c = sqrt(pow(x3-x2,2)+pow(y3-y2,2));
+                    P = (a+b+c)/2;
+                    s = sqrt(P*(P-a)*(P-b)*(P-c));
+                    if((s>=s1 && s<=s1) && (s>=s2 && s<=s2) && (s>=s3 && s<=s3) && (s1>=s2 && s1<=s2) && (s1>=s3 && s1<=s3) && (s2>=s3 && s2<=s3)){
+                    */
                     //printf ("%lf\n", S11);
+                    //printf ("%lf\n", SS);
                     printf ("%lf\n", S22);
                     printf ("%lf\n", S33);
-                    //printf ("%lf\n", SS);
                     if((S22 >= S33) && (S22 <= S33)){
                         printf("yes\n");
                     }
@@ -188,21 +206,26 @@ int main(void){
                     }
                     head1 = head1->next;
                 }
-                printf("%d\n",f);
+                //printf("%d\n",f);
                 if (f==0){
-                    s = add(&head, x1, y1, x2, y2, x3, y3);
+                    tmp = add(&head, x1, y1, x2, y2, x3, y3);
                 }
                 f = 0;
             }
             printLinkedList(head);   //выводим
-            fict = malloc(sizeof(Fict));
-            fict->next = (head);
-            //deleteList(&head);
-            s->next = fict;
-            while (current->next != NULL) {
-                current = current->next;
+            fict = malloc(sizeof(Node));
+            if (fict == NULL){
+                printf("Error! Can't allocate memory!");
+                fclose(input);
+                return -1;
             }
-            current->next = fict;
+            else{
+                fict->next = (head);
+                tmp->next = fict;
+                deleteList(&head,fict);
+                fclose(input);
+                return 0;
+            }
         }
     }
 }
